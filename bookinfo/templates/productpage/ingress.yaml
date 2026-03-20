@@ -1,0 +1,43 @@
+{{- if .Values.productpage.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "productpage.name" . }}
+  labels:
+    {{- include "productpage.labels" . | nindent 4 }}
+  {{- with .Values.productpage.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with .Values.productpage.ingress.className }}
+  ingressClassName: {{ . }}
+  {{- end }}
+  {{- if .Values.productpage.ingress.tls }}
+  tls:
+    {{- range .Values.productpage.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+  rules:
+    {{- range .Values.productpage.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            {{- with .pathType }}
+            pathType: {{ . }}
+            {{- end }}
+            backend:
+              service:
+                name: {{ include "productpage.name" $ }}
+                port:
+                  number: 9080
+          {{- end }}
+    {{- end }}
+{{- end }}

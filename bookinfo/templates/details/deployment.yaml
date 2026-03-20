@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "details.name" . }}-v1
+  labels:
+    {{- include "details.labels" . | nindent 4 }}
+    version: v1
+spec:
+  replicas: {{ .Values.details.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "details.selectorLabels" . | nindent 6 }}
+      version: v1
+  template:
+    metadata:
+      labels:
+        {{- include "details.selectorLabels" . | nindent 8 }}
+        version: v1
+    spec:
+      serviceAccountName: {{ include "details.serviceAccountName" . }}
+      containers:
+      - name: {{ include "details.name" . }}
+        image: "{{ .Values.details.image.repository }}:{{ .Values.details.image.tag }}"
+        imagePullPolicy: {{ .Values.details.image.pullPolicy }}
+        ports:
+        - containerPort: 9080

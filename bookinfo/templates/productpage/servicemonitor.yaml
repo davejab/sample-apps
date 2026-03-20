@@ -1,0 +1,24 @@
+{{- if .Values.productpage.serviceMonitor.enabled -}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "productpage.name" . }}
+spec:
+  fallbackScrapeProtocol: PrometheusText1.0.0
+  endpoints:
+  - interval: 10s
+    path: /metrics
+    port: http
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+    {{- include "productpage.labels" . | nindent 6 }}
+{{- end }}
+# > 
+# * Request completely sent off
+# < HTTP/1.1 200 OK
+# < Content-Type: text/plain; version=0.0.4; charset=utf-8; escaping=underscores
+# < Date: Fri, 20 Mar 2026 17:07:55 GMT
+# < Transfer-Encoding: chunked

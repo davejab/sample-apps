@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ratings.name" . }}-v1
+  labels:
+    {{- include "ratings.labels" . | nindent 4 }}
+    version: v1
+spec:
+  replicas: {{ .Values.ratings.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "ratings.selectorLabels" . | nindent 6 }}
+      version: v1
+  template:
+    metadata:
+      labels:
+        {{- include "ratings.selectorLabels" . | nindent 8 }}
+        version: v1
+    spec:
+      serviceAccountName: {{ include "ratings.serviceAccountName" . }}
+      containers:
+      - name: {{ include "ratings.name" . }}
+        image: "{{ .Values.ratings.image.repository }}:{{ .Values.ratings.image.tag }}"
+        imagePullPolicy: {{ .Values.ratings.image.pullPolicy }}
+        ports:
+        - containerPort: 9080

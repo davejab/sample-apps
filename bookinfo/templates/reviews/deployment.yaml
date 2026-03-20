@@ -1,0 +1,119 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "reviews.name" . }}-v1
+  labels:
+    {{- include "reviews.labels" . | nindent 4 }}
+    version: v1
+spec:
+  replicas: {{ .Values.reviews.v1.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "reviews.selectorLabels" . | nindent 6 }}
+      version: v1
+  template:
+    metadata:
+      labels:
+        {{- include "reviews.selectorLabels" . | nindent 8 }}
+        version: v1
+    spec:
+      serviceAccountName: {{ include "reviews.serviceAccountName" . }}
+      containers:
+      - name: {{ include "reviews.name" . }}
+        image: "{{ .Values.reviews.v1.image.repository }}:{{ .Values.reviews.v1.image.tag }}"
+        imagePullPolicy: {{ .Values.reviews.v1.image.pullPolicy }}
+        env:
+        - name: LOG_DIR
+          value: "/tmp/logs"
+        ports:
+        - containerPort: 9080
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        - name: wlp-output
+          mountPath: /opt/ibm/wlp/output
+      volumes:
+      - name: wlp-output
+        emptyDir: {}
+      - name: tmp
+        emptyDir: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "reviews.name" . }}-v2
+  labels:
+    {{- include "reviews.labels" . | nindent 4 }}
+    version: v2
+spec:
+  replicas: {{ .Values.reviews.v2.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "reviews.selectorLabels" . | nindent 6 }}
+      version: v2
+  template:
+    metadata:
+      labels:
+        {{- include "reviews.selectorLabels" . | nindent 8 }}
+        version: v2
+    spec:
+      serviceAccountName: {{ include "reviews.serviceAccountName" . }}
+      containers:
+      - name: {{ include "reviews.name" . }}
+        image: "{{ .Values.reviews.v2.image.repository }}:{{ .Values.reviews.v2.image.tag }}"
+        imagePullPolicy: {{ .Values.reviews.v2.image.pullPolicy }}
+        env:
+        - name: LOG_DIR
+          value: "/tmp/logs"
+        ports:
+        - containerPort: 9080
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        - name: wlp-output
+          mountPath: /opt/ibm/wlp/output
+      volumes:
+      - name: wlp-output
+        emptyDir: {}
+      - name: tmp
+        emptyDir: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "reviews.name" . }}-v3
+  labels:
+    {{- include "reviews.labels" . | nindent 4 }}
+    version: v3
+spec:
+  replicas: {{ .Values.reviews.v3.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "reviews.selectorLabels" . | nindent 6 }}
+      version: v3
+  template:
+    metadata:
+      labels:
+        {{- include "reviews.selectorLabels" . | nindent 8 }}
+        version: v3
+    spec:
+      serviceAccountName: {{ include "reviews.serviceAccountName" . }}
+      containers:
+      - name: {{ include "reviews.name" . }}
+        image: "{{ .Values.reviews.v3.image.repository }}:{{ .Values.reviews.v3.image.tag }}"
+        imagePullPolicy: {{ .Values.reviews.v3.image.pullPolicy }}
+        env:
+        - name: LOG_DIR
+          value: "/tmp/logs"
+        ports:
+        - containerPort: 9080
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        - name: wlp-output
+          mountPath: /opt/ibm/wlp/output
+      volumes:
+      - name: wlp-output
+        emptyDir: {}
+      - name: tmp
+        emptyDir: {}

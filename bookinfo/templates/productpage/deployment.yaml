@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "productpage.name" . }}-v1
+  labels:
+    {{- include "productpage.labels" . | nindent 4 }}
+    version: v1
+spec:
+  replicas: {{ .Values.productpage.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "productpage.selectorLabels" . | nindent 6 }}
+      version: v1
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9080"
+        prometheus.io/path: "/metrics"
+      labels:
+        {{- include "productpage.selectorLabels" . | nindent 8 }}
+        version: v1
+    spec:
+      serviceAccountName: {{ include "productpage.serviceAccountName" . }}
+      containers:
+      - name: {{ include "productpage.name" . }}
+        image: "{{ .Values.productpage.image.repository }}:{{ .Values.productpage.image.tag }}"
+        imagePullPolicy: {{ .Values.productpage.image.pullPolicy }}
+        ports:
+        - containerPort: 9080
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+      volumes:
+      - name: tmp
+        emptyDir: {}

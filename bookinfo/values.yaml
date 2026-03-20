@@ -1,0 +1,83 @@
+nameOverride: ""
+fullnameOverride: ""
+
+details:
+  nameOverride: ""
+  fullnameOverride: ""
+  replicaCount: 1
+  image:
+    repository: docker.io/istio/examples-bookinfo-details-v1
+    pullPolicy: IfNotPresent
+    tag: "1.20.3"
+  serviceAccount:
+    create: true
+    automount: true
+    annotations: {}
+    name: ""
+
+productpage:
+  nameOverride: ""
+  fullnameOverride: ""
+  replicaCount: 1
+  image:
+    repository: docker.io/istio/examples-bookinfo-productpage-v1
+    pullPolicy: IfNotPresent
+    tag: "1.20.3"
+  serviceAccount:
+    create: false
+    automount: true
+    annotations: {}
+    name: ""
+  serviceMonitor:
+    enabled: true
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+
+ratings:
+  nameOverride: ""
+  fullnameOverride: ""
+  replicaCount: 1
+  image:
+    repository: docker.io/istio/examples-bookinfo-ratings-v1
+    pullPolicy: IfNotPresent
+    tag: "1.20.3"
+  serviceAccount:
+    create: true
+    automount: true
+    annotations: {}
+    name: ""
+
+reviews:
+  nameOverride: ""
+  fullnameOverride: ""
+  v1:
+    replicaCount: 1
+    image:
+      repository: docker.io/istio/examples-bookinfo-reviews-v1
+      pullPolicy: IfNotPresent
+      tag: "1.20.3"
+  v2:
+    replicaCount: 1
+    image:
+      repository: docker.io/istio/examples-bookinfo-reviews-v2
+      pullPolicy: IfNotPresent
+      tag: "1.20.3"
+  v3:
+    replicaCount: 1
+    image:
+      repository: docker.io/istio/examples-bookinfo-reviews-v3
+      pullPolicy: IfNotPresent
+      tag: "1.20.3"
+  serviceAccount:
+    create: true
+    automount: true
+    annotations: {}
+    name: ""
