@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "details.selectorLabels" . | nindent 8 }}
+        {{- include "details.labels" . | nindent 8 }}
         version: v1
     spec:
       serviceAccountName: {{ include "details.serviceAccountName" . }}

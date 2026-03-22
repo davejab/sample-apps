@@ -18,7 +18,7 @@ spec:
         prometheus.io/port: "9080"
         prometheus.io/path: "/metrics"
       labels:
-        {{- include "productpage.selectorLabels" . | nindent 8 }}
+        {{- include "productpage.labels" . | nindent 8 }}
         version: v1
     spec:
       serviceAccountName: {{ include "productpage.serviceAccountName" . }}
