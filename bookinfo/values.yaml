@@ -5,6 +5,7 @@ details:
   nameOverride: ""
   fullnameOverride: ""
   replicaCount: 1
+  labels: {}
   image:
     repository: docker.io/istio/examples-bookinfo-details-v1
     pullPolicy: IfNotPresent
@@ -19,6 +20,7 @@ productpage:
   nameOverride: ""
   fullnameOverride: ""
   replicaCount: 1
+  labels: {}
   image:
     repository: docker.io/istio/examples-bookinfo-productpage-v1
     pullPolicy: IfNotPresent
@@ -45,6 +47,7 @@ ratings:
   nameOverride: ""
   fullnameOverride: ""
   replicaCount: 1
+  labels: {}
   image:
     repository: docker.io/istio/examples-bookinfo-ratings-v1
     pullPolicy: IfNotPresent
@@ -58,6 +61,7 @@ ratings:
 reviews:
   nameOverride: ""
   fullnameOverride: ""
+  labels: {}
   v1:
     replicaCount: 1
     image:

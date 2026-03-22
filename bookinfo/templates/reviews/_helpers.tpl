@@ -29,6 +29,9 @@ Common labels
 {{- define "reviews.labels" -}}
 {{ include "reviews.selectorLabels" . }}
 {{ include "bookinfo.labels" . }}
+{{- with .Values.reviews.labels }}
+{{ toYaml . }}
+{{- end }}
 {{- end }}
 
 {{/*

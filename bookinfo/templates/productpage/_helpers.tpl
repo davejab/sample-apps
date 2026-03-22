@@ -29,6 +29,9 @@ Common labels
 {{- define "productpage.labels" -}}
 {{ include "productpage.selectorLabels" . }}
 {{ include "bookinfo.labels" . }}
+{{- with .Values.productpage.labels }}
+{{ toYaml . }}
+{{- end }}
 {{- end }}
 
 {{/*
