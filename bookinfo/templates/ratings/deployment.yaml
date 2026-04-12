@@ -16,6 +16,10 @@ spec:
       labels:
         {{- include "ratings.labels" . | nindent 8 }}
         version: v1
+      {{- with .Values.ratings.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     spec:
       serviceAccountName: {{ include "ratings.serviceAccountName" . }}
       containers:

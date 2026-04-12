@@ -17,6 +17,9 @@ spec:
         prometheus.io/scrape: "true"
         prometheus.io/port: "9080"
         prometheus.io/path: "/metrics"
+      {{- with .Values.productpage.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
         {{- include "productpage.labels" . | nindent 8 }}
         version: v1

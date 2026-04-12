@@ -16,6 +16,10 @@ spec:
       labels:
         {{- include "details.labels" . | nindent 8 }}
         version: v1
+      {{- with .Values.details.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     spec:
       serviceAccountName: {{ include "details.serviceAccountName" . }}
       containers:
