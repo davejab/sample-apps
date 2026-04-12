@@ -60,6 +60,10 @@ spec:
       labels:
         {{- include "reviews.selectorLabels" . | nindent 8 }}
         version: v2
+      {{- with .Values.reviews.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     spec:
       serviceAccountName: {{ include "reviews.serviceAccountName" . }}
       containers:
@@ -100,6 +104,10 @@ spec:
       labels:
         {{- include "reviews.selectorLabels" . | nindent 8 }}
         version: v3
+      {{- with .Values.reviews.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     spec:
       serviceAccountName: {{ include "reviews.serviceAccountName" . }}
       containers:
